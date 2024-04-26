@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         ruby: ["3.0"]
-        task: ["spec_chrome", "spec_firefox"]
+        task: ["spec_chrome"]
 
     steps:
       - name: Checkout projeto
@@ -37,6 +37,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Run tests
-        run: bundle exec rake ${{ matrix.task }}
+        run: cucumber -p ci
 
         
