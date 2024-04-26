@@ -1,0 +1,46 @@
+name: Execução de testes regressivos
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 9 * * 4'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      HEADLESS: true
+
+    strategy:
+      # Ensure all jobs are run to completion
+      fail-fast: false
+      matrix:
+        ruby: ["3.0"]
+        task: ["spec_chrome"]
+
+    steps:
+      - name: Checkout projeto
+        uses: actions/checkout@v4 
+
+      - name: Install non-ruby dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxslt-dev
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Confige Gems
+        run: bundler install
+
+      - name: Run tests
+        run: bundle exec rake
+
+        
