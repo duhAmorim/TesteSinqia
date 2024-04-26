@@ -36,6 +36,10 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+
+      - name: Confige Gems
+        run: bundler install
+
       - name: Run tests
         run: cucumber -p ci
 
