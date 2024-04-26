@@ -41,6 +41,6 @@ jobs:
         run: bundler install
 
       - name: Run tests
-        run: cucumber -p ci
+        run: bundle exec rake
 
         
